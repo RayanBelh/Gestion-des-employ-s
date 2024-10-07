@@ -398,4 +398,17 @@ Le programme permet de créer des instances de `Developpeur` et de `Manager` , p
 ### Affichage des employés
 L'application affiche les informations des employés (développeurs et managers) en utilisant les méthodes `getAll()` des classes `DeveloppeurService` et `ManagerService`, ainsi que des employés (directeur général) comme des instances de la classe `Personne`. 
 
+#### Exemple de sortie de la console :
+
+Développeurs :
+Personne{id=1, nom='Dev1', salaire=3000.0}
+Personne{id=2, nom='Dev2', salaire=3500.0}
+
+Hiérarchie des employés :
+Directeur Général : Personne{id=5, nom='Directeur Général', salaire=10000.0}
+Manager : Personne{id=3, nom='Manager', salaire=5000.0}
+Développeurs :
+Personne{id=1, nom='Dev1', salaire=3000.0}
+Personne{id=2, nom='Dev2', salaire=3500.0}
+Personne{id=4, nom='Dev3', salaire=4000.0}
 
