@@ -68,12 +68,6 @@ public class Developpeur extends Personne {
 ```
 - **`Manager.java`** : Classe héritant de `Personne`, représentant un manager avec des attributs et méthodes spécifiques.
 ```java
-package ma.projet.beans;
-
-/**
- *
- * @author belha
- */
 public class Manager extends Personne {
 
     public Manager(int id, String nom, double salaire) {
@@ -84,14 +78,311 @@ public class Manager extends Personne {
 
 ### 3. **`ma.projet.dao`**
 - **`IDao.java`** : Interface définissant les méthodes CRUD (Create, Read, Update, Delete) pour un DAO (Data Access Object).
+```java
+package ma.projet.dao;
+
+import java.util.List;
+/**
+ *
+ * @author belha
+ * @param <T>
+ */
+public interface IDao<T> {
+    boolean create (T o);
+    boolean update(T o);
+    boolean delete(T o);
+    T getById(int id);
+    List<T> getAll();
+    
+}
+```
 
 ### 4. **`ma.projet.service`**
 - **`DeveloppeurService.java`** : Classe implémentant l'interface `IDao` pour gérer les opérations CRUD sur les développeurs.
+```java
+package ma.projet.service;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ma.projet.beans.Developpeur;
+import ma.projet.connexion.Connexion;
+import ma.projet.dao.IDao;
+
+public class DeveloppeurService implements IDao<Developpeur> {
+
+    @Override
+    public boolean create(Developpeur o) {
+         Connection connection = Connexion.getConnection(); // Get the connection
+    if (connection == null) {
+        // Handle the case where the connection is null
+        System.err.println("Error: Could not establish a database connection.");
+        return false; 
+    } 
+    try {
+        String req = "insert into Developpeur (nom, salaire) values (?,?)";
+        PreparedStatement ps = connection.prepareStatement(req);
+        ps.setString(1, o.getNom());
+        ps.setDouble(2, o.getSalaire());
+        if (ps.executeUpdate() == 1) {
+            return true;
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(DeveloppeurService.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
+        // Close the connection (add this to all methods that use a connection)
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DeveloppeurService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    return false;
+    }
+    @Override
+    public boolean update(Developpeur o) {
+        try {
+            String req = "update developpeur set nom = ?, salaire = ? where  id = ?";
+            PreparedStatement ps
+                    = Connexion.getConnection().prepareStatement(req);
+            ps.setString(1, o.getNom());
+            ps.setDouble(2, o.getSalaire());
+            ps.setInt(3, o.getId());
+            if (ps.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DeveloppeurService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    @Override
+    public boolean delete(Developpeur o) {
+         try {
+            String req = "delete from developpeur where id = ?";
+            PreparedStatement ps
+                    = Connexion.getConnection().prepareStatement(req);
+            ps.setInt(1, o.getId());
+            if (ps.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DeveloppeurService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    @Override
+    public Developpeur getById(int id) {
+        Developpeur developpeur = null;
+        try {
+            String req = "select * from developpeur where id = ?";
+            PreparedStatement ps
+                    = Connexion.getConnection().prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                developpeur = new Developpeur(rs.getInt("id"), rs.getString("nom"), rs.getDouble("salaire"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DeveloppeurService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return developpeur;
+    }
+     @Override
+    public List<Developpeur> getAll() {
+         List<Developpeur> developpeur = new ArrayList<>();
+        try {
+            String req = " select * from developpeur ";
+            PreparedStatement ps = 
+                    Connexion.getConnection().prepareStatement(req);
+           ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                developpeur.add(new Developpeur(rs.getInt("id"), rs.getString("nom"), rs.getDouble("salaire")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DeveloppeurService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return developpeur;
+    }
+}
+```
 - **`ManagerService.java`** : Classe implémentant l'interface `IDao` pour gérer les opérations CRUD sur les managers.
+```java
+package ma.projet.service;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ma.projet.beans.Manager;
+import ma.projet.connexion.Connexion;
+import ma.projet.dao.IDao;
+
+public class ManagerService implements IDao<Manager> {
+
+    @Override
+    public boolean create(Manager o) {
+        Connection connection = Connexion.getConnection(); // Get the connection
+        if (connection == null) {
+            // Handle the case where the connection is null
+            System.err.println("Error: Could not establish a database connection.");
+            return false;
+        }
+        try {
+            String req = "insert into Manager (nom, salaire) values (?,?)";
+            PreparedStatement ps = connection.prepareStatement(req);
+            ps.setString(1, o.getNom());
+            ps.setDouble(2, o.getSalaire());
+            if (ps.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            // Close the connection (add this to all methods that use a connection)
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ManagerService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
+    }
+    @Override
+    public boolean update(Manager o) {
+       try {
+            String req = "update manager set nom = ?, salaire = ? where  id = ?";
+            PreparedStatement ps
+                    = Connexion.getConnection().prepareStatement(req);
+            ps.setString(1, o.getNom());
+            ps.setDouble(2, o.getSalaire());
+            ps.setInt(3, o.getId());
+            if (ps.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    @Override
+    public boolean delete(Manager o) {
+       try {
+            String req = "delete from manager where id = ?";
+            PreparedStatement ps
+                    = Connexion.getConnection().prepareStatement(req);
+            ps.setInt(1, o.getId());
+            if (ps.executeUpdate() == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    @Override
+    public Manager getById(int id) {
+        Manager manager = null;
+        try {
+            String req = "select * from manager where id = ?";
+            PreparedStatement ps
+                    = Connexion.getConnection().prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                manager = new Manager(rs.getInt("id"), rs.getString("nom"), rs.getDouble("salaire"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return manager;
+    }
+
+    @Override
+    public List<Manager> getAll() {
+        List<Manager> manager = new ArrayList<>();
+        try {
+            String req = " select * from manager ";
+            PreparedStatement ps = 
+                    Connexion.getConnection().prepareStatement(req);
+           ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                manager.add(new Manager(rs.getInt("id"), rs.getString("nom"), rs.getDouble("salaire")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return manager;
+    }   
+}
+```
 
 ### 5. **`ma.projet.test`**
 - **`Entreprise.java`** : Classe principale qui contient la logique du programme, incluant la création et l'affichage des employés.
+```java
+package ma.projet.test;
 
+import ma.projet.beans.Developpeur;
+import ma.projet.beans.Manager;
+import ma.projet.beans.Personne;
+import ma.projet.service.DeveloppeurService;
+import ma.projet.service.ManagerService;
+
+public class Entreprise {
+
+    public static void main(String[] args) {
+        
+        DeveloppeurService developpeurService = new DeveloppeurService();
+        boolean dev1Created = developpeurService.create(new Developpeur(1, "Dev1", 3000));
+        boolean dev2Created = developpeurService.create(new Developpeur(2, "Dev2", 3500));
+
+        ManagerService managerService = new ManagerService();
+        Manager manager = new Manager(3, "Manager", 5000); // Create Manager object
+        boolean managerCreated = managerService.create(manager); // Create Manager in database
+
+        System.out.println("Développeurs :");
+        if (dev1Created) {
+            System.out.println(new Developpeur(1, "Dev1", 3000));
+        }
+        if (dev2Created) {
+            System.out.println(new Developpeur(2, "Dev2", 3500));
+        }
+
+        boolean dev3Created = developpeurService.create(new Developpeur(4, "Dev3", 4000));
+        Personne directeurGeneral = new Personne(5, "Directeur Général", 10000);
+
+        System.out.println("\n Hiérarchie des employés :");
+        System.out.println("Directeur Général : " + directeurGeneral);
+        if (managerCreated) {
+            System.out.println("Manager : " + manager);
+        }
+        System.out.println("Développeurs : ");
+        if (dev1Created) {
+            System.out.println(new Developpeur(1, "Dev1", 3000));
+        }
+        if (dev2Created) {
+            System.out.println(new Developpeur(2, "Dev2", 3500));
+        }
+        if (dev3Created) {
+            System.out.println(new Developpeur(4, "Dev3", 4000));
+        }
+    }
+
+}
+```
 ## Fonctionnement de l'application
 
 ### Connexion à la base de données
