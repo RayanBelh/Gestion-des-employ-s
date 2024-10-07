@@ -395,4 +395,7 @@ jdbc.password=root
 ```
 ### Création d'employés
 Le programme permet de créer des instances de `Developpeur` et de `Manager` , puis de les insérer dans la base de données.
+### Affichage des employés
+L'application affiche les informations des employés (développeurs et managers) en utilisant les méthodes `getAll()` des classes `DeveloppeurService` et `ManagerService`, ainsi que des employés (directeur général) comme des instances de la classe `Personne`. 
+
 
