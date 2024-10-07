@@ -6,13 +6,13 @@ Ce projet est une application Java simple qui permet de gérer des employés dan
 ## Structure du code
 Le code est organisé en plusieurs packages :
 
-### 1. **`ma.projet.beans`**
+### 1. **`ma.projet.connexion`**
+- **`Connexion.java`** : Classe qui gère la connexion à la base de données MySQL.
+
+### 2. **`ma.projet.beans`**
 - **`Personne.java`** : Classe abstraite qui définit les attributs et méthodes de base pour un employé.
 - **`Developpeur.java`** : Classe héritant de `Personne`, représentant un développeur avec des attributs et méthodes spécifiques.
 - **`Manager.java`** : Classe héritant de `Personne`, représentant un manager avec des attributs et méthodes spécifiques.
-
-### 2. **`ma.projet.connexion`**
-- **`Connexion.java`** : Classe qui gère la connexion à la base de données MySQL.
 
 ### 3. **`ma.projet.dao`**
 - **`IDao.java`** : Interface définissant les méthodes CRUD (Create, Read, Update, Delete) pour un DAO (Data Access Object).
@@ -28,3 +28,10 @@ Le code est organisé en plusieurs packages :
 
 ### Connexion à la base de données
 L'application se connecte à une base de données MySQL nommée **`entreprise`** sur `localhost` en utilisant l'utilisateur `root` avec un mot de passe `root`. Les informations de connexion sont stockées dans le fichier `base.properties` situé dans le package `ma.projet.connexion`.
+```java
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost/entreprise
+jdbc.username=root
+jdbc.password=root
+```
+
