@@ -420,3 +420,5 @@ Personne{id=2, nom='Dev2', salaire=3500.0}
 Personne{id=4, nom='Dev3', salaire=4000.0}
 ```
 
+<span style="color:blue">Ce texte est en bleu</span>
+
