@@ -421,4 +421,6 @@ Personne{id=4, nom='Dev3', salaire=4000.0}
 ```
 
 <span style="color:rouge">Ce texte est en bleu</span>
+🔵 Texte en bleu
+🔴 Texte en rouge
 
