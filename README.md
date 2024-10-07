@@ -402,13 +402,21 @@ L'application affiche les informations des employés (développeurs et managers)
 
 Développeurs :
 Personne{id=1, nom='Dev1', salaire=3000.0}
+
 Personne{id=2, nom='Dev2', salaire=3500.0}
 
 Hiérarchie des employés :
+
 Directeur Général : Personne{id=5, nom='Directeur Général', salaire=10000.0}
+
 Manager : Personne{id=3, nom='Manager', salaire=5000.0}
+
 Développeurs :
+
 Personne{id=1, nom='Dev1', salaire=3000.0}
+
 Personne{id=2, nom='Dev2', salaire=3500.0}
+
 Personne{id=4, nom='Dev3', salaire=4000.0}
+
 
