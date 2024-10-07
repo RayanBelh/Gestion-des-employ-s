@@ -399,7 +399,7 @@ Le programme permet de créer des instances de `Developpeur` et de `Manager` , p
 L'application affiche les informations des employés (développeurs et managers) en utilisant les méthodes `getAll()` des classes `DeveloppeurService` et `ManagerService`, ainsi que des employés (directeur général) comme des instances de la classe `Personne`. 
 
 #### Exemple de sortie de la console :
-
+```bsh
 Développeurs :
 Personne{id=1, nom='Dev1', salaire=3000.0}
 
@@ -418,5 +418,5 @@ Personne{id=1, nom='Dev1', salaire=3000.0}
 Personne{id=2, nom='Dev2', salaire=3500.0}
 
 Personne{id=4, nom='Dev3', salaire=4000.0}
-
+```
 
