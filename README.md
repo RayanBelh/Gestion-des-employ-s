@@ -401,6 +401,7 @@ L'application affiche les informations des employés (développeurs et managers)
 #### Exemple de sortie de la console :
 ```bsh
 Développeurs :
+
 Personne{id=1, nom='Dev1', salaire=3000.0}
 
 Personne{id=2, nom='Dev2', salaire=3500.0}
@@ -419,8 +420,6 @@ Personne{id=2, nom='Dev2', salaire=3500.0}
 
 Personne{id=4, nom='Dev3', salaire=4000.0}
 ```
+# Conclusion
 
-<span style="color:rouge">Ce texte est en bleu</span>
-🔵 Texte en bleu
-🔴 Texte en rouge
-
+Ce projet de gestion d'employés en Java montre comment interagir avec une base de données MySQL via JDBC pour effectuer des opérations CRUD. Une amélioration clé serait l'utilisation de PreparedStatement, qui protège contre les injections SQL en sécurisant les requêtes avec des paramètres précompilés. Cela renforce la sécurité et optimise les performances de l'application tout en améliorant la gestion des interactions avec la base de données.
