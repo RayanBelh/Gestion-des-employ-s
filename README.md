@@ -25,7 +25,6 @@ public class Connexion {
     public static Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-                // Rouvrir la connexion si elle est fermée
                 FileInputStream f = new FileInputStream("base.properties");
                 Properties p = new Properties();
                 p.load(f);
