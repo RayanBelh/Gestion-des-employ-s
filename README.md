@@ -398,28 +398,10 @@ Le programme permet de créer des instances de `Developpeur` et de `Manager` , p
 ### Affichage des employés
 L'application affiche les informations des employés (développeurs et managers) en utilisant les méthodes `getAll()` des classes `DeveloppeurService` et `ManagerService`, ainsi que des employés (directeur général) comme des instances de la classe `Personne`. 
 
-#### Exemple de sortie de la console :
-```bsh
-Développeurs :
+#### Sortie de la console après l'execution de la classe Entreprise :
 
-Personne{id=1, nom='Dev1', salaire=3000.0}
+![image](https://github.com/user-attachments/assets/4019760f-99b7-4f39-8ad7-58f30e21867b)
 
-Personne{id=2, nom='Dev2', salaire=3500.0}
-
-Hiérarchie des employés :
-
-Directeur Général : Personne{id=5, nom='Directeur Général', salaire=10000.0}
-
-Manager : Personne{id=3, nom='Manager', salaire=5000.0}
-
-Développeurs :
-
-Personne{id=1, nom='Dev1', salaire=3000.0}
-
-Personne{id=2, nom='Dev2', salaire=3500.0}
-
-Personne{id=4, nom='Dev3', salaire=4000.0}
-```
 # Conclusion
 
 Ce projet de gestion d'employés en Java montre comment interagir avec une base de données MySQL via JDBC pour effectuer des opérations CRUD. Une amélioration clé serait l'utilisation de PreparedStatement, qui protège contre les injections SQL en sécurisant les requêtes avec des paramètres précompilés. Cela renforce la sécurité et optimise les performances de l'application tout en améliorant la gestion des interactions avec la base de données.
