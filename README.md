@@ -8,6 +8,41 @@ Le code est organisé en plusieurs packages :
 
 ### 1. **`ma.projet.connexion`**
 - **`Connexion.java`** : Classe qui gère la connexion à la base de données MySQL.
+```java
+package ma.projet.connexion;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
+public class Connexion {
+
+    private static Connection connection;
+
+    public static Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                // Rouvrir la connexion si elle est fermée
+                FileInputStream f = new FileInputStream("base.properties");
+                Properties p = new Properties();
+                p.load(f);
+                String url = p.getProperty("jdbc.url");
+                String login = p.getProperty("jdbc.username");
+                String password = p.getProperty("jdbc.password");
+                String driver = p.getProperty("jdbc.driver");
+                Class.forName(driver);
+                connection = DriverManager.getConnection(url, login, password);
+            }
+        } catch (IOException | ClassNotFoundException | SQLException ex) {
+            System.out.println("" + ex.getMessage());
+        }
+        return connection;
+    }
+}
+```
 
 ### 2. **`ma.projet.beans`**
 - **`Personne.java`** : Classe abstraite qui définit les attributs et méthodes de base pour un employé.
